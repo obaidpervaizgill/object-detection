@@ -2,18 +2,17 @@ import requests as re
 import json as jn
 import pandas as pd
 import logging
+from columns import columns
+from api import api
 
-class getData:
+class getData(api,columns):
 
     def __init__(self):
-        self.url = "https://api.transport.nsw.gov.au/v1/live/cameras"
-        self.auth_key = "apikey gfD10KWo3RWoQrJBEyD85dnx2N7Pn2u68bWH"
-
-
+        super().__init__()
 
     def return_json(self):
         try:
-            r = re.get(self.url, headers={"Authorization": self.auth_key})
+            r = re.get(self.api_url, headers={"Authorization": self.auth_key})
         except Exception as e:
             logging.error('Error at data pull from api'.format(r), exc_info=e)
         j = jn.loads(r.text)
@@ -29,13 +28,20 @@ class getData:
         data_out = {"geo": data_geo, "prop": data_prop}
         return data_out
 
-    def all_df(self):
+    def df_links(self):
+        try:
+            data = self.json_to_df()["prop"]
+        except Exception as e:
+            logging.error('Error at extracting links to data frame'.format(data.shape), exc_info=e)
+        links = data[self.href]
+        return links
+
+    def df_all(self):
         try:
             data_out = pd.DataFrame.join(self.json_to_df()["geo"], self.json_to_df()["prop"])
         except Exception as e:
             logging.error('Error at joining data frames'.format(data_out.shape), exc_info=e)
-        data_out['index'] = data_out.index
+        data_out[self.index] = data_out.index
         return data_out
-
 
 
