@@ -1,5 +1,5 @@
-from detectTrafficObjects import detectTrafficObjects
+from saveTrafficObjects import saveTrafficObjects
 
 if __name__ == "__main__":
-    test = detectTrafficObjects()
+    test = saveTrafficObjects()
     print(test.save())

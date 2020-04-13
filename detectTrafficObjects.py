@@ -13,7 +13,7 @@ import os
 import logging
 
 
-class detectTrafficObjects(getTrafficData):
+class detectTrafficObjects:
 
     def __init__(self):
         super().__init__()

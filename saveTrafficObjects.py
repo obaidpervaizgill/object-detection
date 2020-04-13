@@ -1,5 +1,6 @@
 from detectTrafficObjects import detectTrafficObjects
 from getTrafficData import getTrafficData
+from columns import columns
 import os
 import logging
 from datetime import datetime
@@ -12,9 +13,5 @@ class saveTrafficObjects(detectTrafficObjects):
         self.file_name = "traffic"
 
     def save(self):
-        data_out = self.df_detect_all().merge(getTrafficData().df_all(), left_on=self.href, right_on=self.href)
-        return data_out.to_csv(os.path.join(os.getcwd(),r'output/traffic_{}.csv'.format(datetime.now().strftime('%y%m%d-%H%M'))))
-
-if __name__ == "__main__":
-    test = saveTrafficObjects()
-    print(test.save())
+        data_out = self.df_detect_all().merge(getTrafficData().df_all(), left_on=columns.href, right_on=columns.href)
+        return data_out.to_csv(os.path.join(self.out_path,r'output/traffic_{}.csv'.format(datetime.now().strftime('%y%m%d-%H%M'))))
