@@ -42,5 +42,4 @@ class getTrafficData(api, columns):
             data_out = pd.DataFrame.join(self.json_to_df()["geo"], self.json_to_df()["prop"])
         except Exception as e:
             logging.error('Error at joining data frames'.format(data_out.shape), exc_info=e)
-        data_out[self.index] = data_out.index
         return data_out

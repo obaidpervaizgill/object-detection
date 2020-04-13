@@ -3,9 +3,12 @@ from context import context
 from getTrafficData import getTrafficData
 from urllib import request
 from urllib.parse import urlparse
+from datetime import datetime
+from collections import Counter
 import cv2
 import cvlib as cv
 import numpy as np
+import pandas as pd
 import logging
 
 
@@ -13,12 +16,14 @@ class detectTrafficObjects(getTrafficData, columns, context):
 
     def __init__(self):
         super().__init__()
+        self.all = False
+        self.length = 3
 
-    def to_detect(self, all=True, length=3):
-        if all:
+    def to_detect_links(self):
+        if self.all:
             link_all = getTrafficData().df_links()["links"]
         else:
-            link_all = getTrafficData().df_links()["links"][:length]
+            link_all = getTrafficData().df_links()["links"][:self.length]
         return link_all
 
     def detect(self, url):
@@ -30,19 +35,17 @@ class detectTrafficObjects(getTrafficData, columns, context):
         image = np.asarray(bytearray(req_url.read()), dtype="uint8")
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         bbox, label, conf = cv.detect_common_objects(image)
-        return {"label": label, "confidence": conf, "box": bbox}
+        return {"url": url,
+                "label": label,
+                "confidence": conf,
+                "box": bbox,
+                "time": [datetime.now().strftime("%Y/%m/%d-%H:%M:%S")]}
 
-    def detect_all(self):
-        data_out = list(map(lambda l: self.detect(l), self.to_detect(False)))
+    def df_detect_all(self):
+        try:
+            data = pd.DataFrame(map(lambda l: self.detect(l), self.to_detect_links()))
+        except Exception as e:
+            logging.error('Error opening data', exc_info=e)
+        data[self.count] = data["label"].apply(lambda l: Counter(l))
+        data_out = data.join(data["count"].apply(pd.Series).fillna(0))
         return data_out
-
-    def detect_all_label(self):
-        pass
-
-
-
-if __name__ == "__main__":
-    test = detectTrafficObjects()
-    # print(test.detect(test.link_all))
-    print (test.detect_all())
-    #print (test.to_detect(False,3))
