@@ -5,7 +5,7 @@ import logging
 from columns import columns
 from api import api
 
-class getData(api,columns):
+class getTrafficData(api, columns):
 
     def __init__(self):
         super().__init__()
@@ -34,7 +34,8 @@ class getData(api,columns):
         except Exception as e:
             logging.error('Error at extracting links to data frame'.format(data.shape), exc_info=e)
         links = data[self.href]
-        return links
+        num_links = len(links)
+        return {"num_links": num_links, "links": links}
 
     def df_all(self):
         try:
@@ -43,5 +44,3 @@ class getData(api,columns):
             logging.error('Error at joining data frames'.format(data_out.shape), exc_info=e)
         data_out[self.index] = data_out.index
         return data_out
-
-
