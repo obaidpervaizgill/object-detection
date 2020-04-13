@@ -16,7 +16,7 @@ class detectTrafficObjects(getTrafficData, columns, context):
 
     def __init__(self):
         super().__init__()
-        self.all = False
+        self.all = True
         self.length = 3
 
     def to_detect_links(self):
@@ -35,7 +35,7 @@ class detectTrafficObjects(getTrafficData, columns, context):
         image = np.asarray(bytearray(req_url.read()), dtype="uint8")
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         bbox, label, conf = cv.detect_common_objects(image)
-        return {"url": url,
+        return {"href": url,
                 "label": label,
                 "confidence": conf,
                 "box": bbox,
@@ -48,4 +48,15 @@ class detectTrafficObjects(getTrafficData, columns, context):
             logging.error('Error opening data', exc_info=e)
         data[self.count] = data["label"].apply(lambda l: Counter(l))
         data_out = data.join(data["count"].apply(pd.Series).fillna(0))
+        data_out[self.href] = data_out[self.href].astype(str)
         return data_out
+
+    def save(self):
+        data_one = self.df_detect_all()
+        data_two = getTrafficData().df_all()
+        data_out = data_one.merge(data_two, left_on=self.href, right_on=self.href)
+        return data_out.to_csv('traffic_{}.csv'.format(datetime.now().strftime('%y%m%d-%H%M')), index=False)
+
+if __name__ == "__main__":
+    test = detectTrafficObjects()
+    print(test.save())
