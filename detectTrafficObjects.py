@@ -57,6 +57,3 @@ class detectTrafficObjects(getTrafficData, columns, context):
         data_out = data_one.merge(data_two, left_on=self.href, right_on=self.href)
         return data_out.to_csv('traffic_{}.csv'.format(datetime.now().strftime('%y%m%d-%H%M')), index=False)
 
-if __name__ == "__main__":
-    test = detectTrafficObjects()
-    print(test.save())
