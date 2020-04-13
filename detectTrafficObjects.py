@@ -9,6 +9,7 @@ import cv2
 import cvlib as cv
 import numpy as np
 import pandas as pd
+import os
 import logging
 
 
@@ -50,10 +51,3 @@ class detectTrafficObjects(getTrafficData, columns, context):
         data_out = data.join(data["count"].apply(pd.Series).fillna(0))
         data_out[self.href] = data_out[self.href].astype(str)
         return data_out
-
-    def save(self):
-        data_one = self.df_detect_all()
-        data_two = getTrafficData().df_all()
-        data_out = data_one.merge(data_two, left_on=self.href, right_on=self.href)
-        return data_out.to_csv('traffic_{}.csv'.format(datetime.now().strftime('%y%m%d-%H%M')), index=False)
-
