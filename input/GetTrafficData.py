@@ -1,8 +1,8 @@
 import requests as re
 import json as jn
 import pandas as pd
-from Columns import Columns
-from Api import Api
+from utilities.Columns import Columns
+from utilities.Api import Api
 
 
 class GetTrafficData (Api, Columns):

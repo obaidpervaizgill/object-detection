@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from DetectTrafficObjects import DetectTrafficObjects
+from engine.DetectTrafficObjects import DetectTrafficObjects
 
 
 class SaveTrafficObjects(DetectTrafficObjects):
