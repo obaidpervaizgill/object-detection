@@ -1,16 +1,14 @@
 import requests as re
 import json as jn
 import pandas as pd
-from columns import columns
-from api import api
+from Columns import Columns
+from Api import Api
 
-class getTrafficData:
 
-    def __init__(self):
-        super().__init__()
+class GetTrafficData (Api, Columns):
 
     def return_json(self):
-        r = re.get(api.api_url, headers={"Authorization": api.auth_key})
+        r = re.get(self.api_url, headers={"Authorization": self.auth_key})
         j = jn.loads(r.text)
         return j
 
@@ -23,11 +21,11 @@ class getTrafficData:
 
     def df_links(self):
         data = self.json_to_df()["prop"]
-        links = data[columns.href]
+        links = data[self.href]
         num_links = len(links)
         return {"num_links": num_links, "links": links}
 
     def df_all(self):
         data_out = pd.DataFrame.join(self.json_to_df()["geo"], self.json_to_df()["prop"])
-        data_out[columns.href] = data_out[columns.href].astype(str)
+        data_out[self.href] = data_out[self.href].astype(str)
         return data_out
