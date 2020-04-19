@@ -1,24 +1,22 @@
 from utilities.Columns import Columns
-from utilities.Context import Context
 from input.GetBeachData import GetBeachData
+from engine.DetectTrafficObjects import DetectTrafficObjects
 from PIL import Image
 from urllib.request import urlopen
 from urllib.parse import urlparse
 from datetime import datetime
 from collections import Counter
-import cv2
 import cvlib as cv
 import numpy as np
 import pandas as pd
-import logging
 
 
-class DetectBeachObjects(GetBeachData):
+class DetectBeachObjects(GetBeachData, DetectTrafficObjects):
 
     def __init__(self):
         super().__init__()
         self.all = False
-        self.length = 100
+        self.length = 10
 
     def to_detect_links(self):
         if self.all:
@@ -37,9 +35,3 @@ class DetectBeachObjects(GetBeachData):
                 "box": bbox,
                 "time": [datetime.now().strftime("%Y/%m/%d-%H:%M:%S")]}
 
-    def df_detect_all(self):
-        data = pd.DataFrame(map(lambda l: self.detect(l), self.to_detect_links()))
-        data[self.count] = data["label"].apply(lambda l: Counter(l))
-        data_out = data.join(data["count"].apply(pd.Series).fillna(0))
-        data_out[Columns.href] = data_out[Columns.href].astype(str)
-        return data_out

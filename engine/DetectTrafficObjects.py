@@ -15,7 +15,7 @@ import logging
 class DetectTrafficObjects(GetTrafficData, Context):
 
     def __init__(self):
-        self.all = True
+        self.all = False
         self.length = 3
 
     def to_detect_links(self):
