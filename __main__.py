@@ -2,7 +2,10 @@
 
 #test = SaveTrafficObjects()
 #test.save()
-from input.GetBeachData import GetBeachData
+
+from engine.DetectBeachObjects import DetectBeachObjects
 if __name__ == "__main__":
-    test = GetBeachData()
-    print(test.timestamps_to_df())
+    test = DetectBeachObjects()
+    sample = test.timestamps_to_df()["links"].tolist()[90]
+    print(test.df_detect_all())
+    #print(test.to_detect_links())

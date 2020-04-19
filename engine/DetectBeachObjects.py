@@ -1,7 +1,8 @@
 from utilities.Columns import Columns
 from utilities.Context import Context
-from input.GetTrafficData import GetTrafficData
-from urllib import request
+from input.GetBeachData import GetBeachData
+from PIL import Image
+from urllib.request import urlopen
 from urllib.parse import urlparse
 from datetime import datetime
 from collections import Counter
@@ -12,17 +13,18 @@ import pandas as pd
 import logging
 
 
-class DetectTrafficObjects(GetTrafficData, Context):
+class DetectBeachObjects(GetBeachData):
 
     def __init__(self):
-        self.all = True
-        self.length = 3
+        super().__init__()
+        self.all = False
+        self.length = 100
 
     def to_detect_links(self):
         if self.all:
-            link_all = self.df_links()["links"]
+            link_all = [l for l in self.timestamps_to_df()["links"] if urlparse(l)]
         else:
-            link_all = self.df_links()["links"][:self.length]
+            link_all = [l for l in self.timestamps_to_df()["links"] if urlparse(l)][:self.length]
         return link_all
 
     def detect(self, url):
@@ -30,9 +32,8 @@ class DetectTrafficObjects(GetTrafficData, Context):
             url_valid = urlparse(url)
         except Exception as e:
             logging.error('Error at opening url'.format(url_valid), exc_info=e)
-        req_url = request.urlopen(url, self.context)
-        image = np.asarray(bytearray(req_url.read()), dtype="uint8")
-        image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+        req_url = Image.open(urlopen(url))
+        image = np.array(req_url.convert('RGB'))
         bbox, label, conf = cv.detect_common_objects(image)
         return {"href": url,
                 "label": label,
