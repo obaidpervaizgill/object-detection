@@ -1,6 +1,7 @@
 from datetime import datetime
 from datetime import timedelta
 import pandas as pd
+import os
 from utilities.Api import Api
 from utilities.Columns import Columns
 
@@ -12,6 +13,9 @@ class GetBeachData(Api, Columns):
         self.minute_increment = 10
         self.minute_parse = -2
         self.min_limit = 50
+        self.in_path = os.getcwd()
+        self.in_folder = "/input/"
+        self.file_name = "beach"
 
     def return_timestamps(self):
         hours = ["%04d" % h for h in range(0, self.twenty_four_hours) if (h % self.minute_increment == 0)]
@@ -29,4 +33,11 @@ class GetBeachData(Api, Columns):
                 for t in self.return_timestamps()
             ]
         )
+        return data_out
+
+    def df_all(self):
+        data_in = pd.read_csv(self.in_path + self.in_folder + r'{}.csv'.format(self.file_name))
+        data_in[self.cameras] = data_in[self.cameras].astype(str)
+        data_out = self.df_links().merge(data_in, on=self.cameras, how="left")
+        data_out = data_out.rename(columns={"links": self.href})
         return data_out

@@ -1,9 +1,14 @@
-#from output.SaveTrafficObjects import SaveTrafficObjects
+from output.SaveBeachObjects import SaveBeachObjects
+test = SaveBeachObjects()
+test.save()
 
-#test = SaveTrafficObjects()
-#test.save()
+#from engine.DetectBeachObjects import DetectBeachObjects
+#if __name__ == "__main__":
+#    test = DetectBeachObjects()
+#    print(test.df_all())
 
-from engine.DetectBeachObjects import DetectBeachObjects
-if __name__ == "__main__":
-    test = DetectBeachObjects()
-    print(test.df_detect_all())
+#from engine.DetectBeachObjects import DetectBeachObjects
+#if __name__ == "__main__":
+#    test = DetectBeachObjects()
+#    print(test.df_detect_all())
+

@@ -25,7 +25,7 @@ class DetectTrafficObjects(GetTrafficData, Context):
         return link_all
 
     def detect(self, url):
-        req_url = request.urlopen(url, self.context)
+        req_url = request.urlopen(url)
         image = np.asarray(bytearray(req_url.read()), dtype="uint8")
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         bbox, label, conf = cv.detect_common_objects(image)
@@ -41,3 +41,4 @@ class DetectTrafficObjects(GetTrafficData, Context):
         data_out = data.join(data["count"].apply(pd.Series).fillna(0))
         data_out[Columns.href] = data_out[Columns.href].astype(str)
         return data_out
+    
