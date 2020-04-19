@@ -9,7 +9,6 @@ import cv2
 import cvlib as cv
 import numpy as np
 import pandas as pd
-import logging
 
 
 class DetectTrafficObjects(GetTrafficData, Context):

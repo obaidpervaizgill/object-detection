@@ -20,7 +20,7 @@ class GetBeachData(Api, Columns):
         timestamp = [(d + h) for d in days for h in hours if int((d + h)[self.minute_parse:]) <= self.min_limit]
         return timestamp
 
-    def timestamps_to_df(self):
+    def df_links(self):
         data_out = pd.concat(
             [pd.DataFrame(
                 {"cameras": [l], "links": [self.api_url_beach.format(l, t)], "daytime": [t]}
