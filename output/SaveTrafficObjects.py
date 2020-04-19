@@ -15,6 +15,6 @@ class SaveTrafficObjects(DetectTrafficObjects):
         self.data_key = self.href
 
     def save(self):
-        data_out = self.data_left.merge(self.data_right, left_on=self.data_key, right_on=self.data_key)
+        data_out = self.data_left.merge(self.data_right, on=self.data_key, how="inner")
         return data_out.to_csv(
             self.out_path + self.out_folder + self.file_name + r'{}.csv'.format(datetime.now().strftime('%y%m%d-%H%M')))
