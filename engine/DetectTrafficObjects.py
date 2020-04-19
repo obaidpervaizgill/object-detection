@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 from datetime import datetime
 from collections import Counter
 import cv2
+import os
 import cvlib as cv
 import numpy as np
 import pandas as pd
@@ -16,6 +17,10 @@ class DetectTrafficObjects(GetTrafficData, Context):
     def __init__(self):
         self.all = False
         self.length = 3
+        self.data_key = self.href
+        self.out_path = os.getcwd()
+        self.out_folder = "/output/"
+        self.file_name = "traffic"
 
     def to_detect_links(self):
         if self.all:
@@ -41,4 +46,8 @@ class DetectTrafficObjects(GetTrafficData, Context):
         data_out = data.join(data["count"].apply(pd.Series).fillna(0))
         data_out[Columns.href] = data_out[Columns.href].astype(str)
         return data_out
-    
+
+    def save(self):
+        data_out = self.df_all().merge(self.df_detect_all(), on=self.data_key, how="inner")
+        return data_out.to_csv(
+            self.out_path + self.out_folder + self.file_name + r'{}.csv'.format(datetime.now().strftime('%y%m%d-%H%M')))

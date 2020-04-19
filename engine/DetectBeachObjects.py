@@ -3,6 +3,7 @@ from engine.DetectTrafficObjects import DetectTrafficObjects
 from PIL import Image
 from urllib.request import urlopen
 from datetime import datetime
+import os
 import cvlib as cv
 import numpy as np
 
@@ -13,6 +14,10 @@ class DetectBeachObjects(GetBeachData, DetectTrafficObjects):
         super().__init__()
         self.all = False
         self.length = 10
+        self.data_key = self.href
+        self.out_path = os.getcwd()
+        self.out_folder = "/output/"
+        self.file_name = "beach"
 
     def detect(self, url):
         req_url = Image.open(urlopen(url))

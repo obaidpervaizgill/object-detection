@@ -1,4 +1,0 @@
-,href,label,confidence,box,time,count,car,type,coordinates,region,title,view,direction
-0,https://www.rms.nsw.gov.au/trafficreports/cameras/camera_images/5ways.jpg,[],[],[],['2020/04/19-20:25:38'],Counter(),0.0,Point,"[151.10533, -34.02977]",SYD_SOUTH,5 Ways (Miranda),5 ways at The Boulevarde looking west towards Sutherland.,W
-1,https://www.rms.nsw.gov.au/trafficreports/cameras/camera_images/alisonrd_randwick.jpg,[],[],[],['2020/04/19-20:25:39'],Counter(),0.0,Point,"[151.23122, -33.90641]",SYD_MET,Alison Road (Randwick),Alison Road at Darley Road looking north-west towards Anzac Parade.,N-W
-2,https://www.rms.nsw.gov.au/trafficreports/cameras/camera_images/anzacbr.jpg,['car'],[0.8565132021903992],"[[121, 143, 135, 153]]",['2020/04/19-20:25:39'],Counter({'car': 1}),1.0,Point,"[151.18022, -33.86789]",SYD_MET,Anzac Bridge (Eastbound),Intersection of Victoria Road and Anzac Bridge looking east towards the Sydney CBD.,E
