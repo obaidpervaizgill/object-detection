@@ -8,7 +8,7 @@ from utilities.Api import Api
 class GetTrafficData (Api, Columns):
 
     def return_json(self):
-        r = re.get(self.api_url, headers={"Authorization": self.auth_key})
+        r = re.get(self.api_url_traffic, headers={"Authorization": self.auth_key_traffic})
         j = jn.loads(r.text)
         return j
 
