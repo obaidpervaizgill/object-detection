@@ -20,16 +20,12 @@ class DetectTrafficObjects(GetTrafficData, Context):
 
     def to_detect_links(self):
         if self.all:
-            link_all = self.df_links()["links"]
+            link_all = [l for l in self.df_links()["links"] if urlparse(l)]
         else:
-            link_all = self.df_links()["links"][:self.length]
+            link_all = [l for l in self.df_links()["links"] if urlparse(l)][:self.length]
         return link_all
 
     def detect(self, url):
-        try:
-            url_valid = urlparse(url)
-        except Exception as e:
-            logging.error('Error at opening url'.format(url_valid), exc_info=e)
         req_url = request.urlopen(url, self.context)
         image = np.asarray(bytearray(req_url.read()), dtype="uint8")
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)

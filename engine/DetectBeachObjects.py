@@ -28,10 +28,6 @@ class DetectBeachObjects(GetBeachData):
         return link_all
 
     def detect(self, url):
-        try:
-            url_valid = urlparse(url)
-        except Exception as e:
-            logging.error('Error at opening url'.format(url_valid), exc_info=e)
         req_url = Image.open(urlopen(url))
         image = np.array(req_url.convert('RGB'))
         bbox, label, conf = cv.detect_common_objects(image)
