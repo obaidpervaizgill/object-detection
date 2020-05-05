@@ -1,5 +1,6 @@
 from utilities.Columns import Columns
 from utilities.Context import Context
+from utilities.Yolo import Yolo
 from input.GetTrafficData import GetTrafficData
 from urllib import request
 from urllib.parse import urlparse
@@ -12,7 +13,7 @@ import numpy as np
 import pandas as pd
 
 
-class DetectTrafficObjects(GetTrafficData, Context):
+class DetectTrafficObjects(GetTrafficData, Context, Yolo):
 
     def __init__(self):
         self.all = False
@@ -33,7 +34,7 @@ class DetectTrafficObjects(GetTrafficData, Context):
         req_url = request.urlopen(url)
         image = np.asarray(bytearray(req_url.read()), dtype="uint8")
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
-        bbox, label, conf = cv.detect_common_objects(image)
+        bbox, label, conf = cv.detect_common_objects(image, confidence=self.confidence, model=self.model)
         return {"href": url,
                 "label": label,
                 "confidence": conf,
