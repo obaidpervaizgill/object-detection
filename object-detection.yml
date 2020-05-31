@@ -6,7 +6,6 @@ dependencies:
   - absl-py=0.9.0
   - ansiwrap=0.8.4
   - appdirs=1.4.3
-  - appnope
   - asn1crypto=1.3.0
   - astor=0.7.1
   - async_generator=1.10
