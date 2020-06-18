@@ -1,6 +1,6 @@
 class Api:
     api_url_traffic = "https://api.transport.nsw.gov.au/v1/live/cameras"
-    auth_key_traffic = "apikey gfD10KWo3RWoQrJBEyD85dnx2N7Pn2u68bWH"
+    auth_key_traffic = "secret"
     api_url_beach = "https://strm-gallery.coastalwatch.com/camera/livestill/{}/LiveStill_{}.gif"
     api_location_beach = {
         "Kingscliff": "2025",
